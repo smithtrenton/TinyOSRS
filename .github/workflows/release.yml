@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup jdk
         uses: joschi/setup-jdk@v1
-          with:
-            java-version: 'openjdk8'
+        with:
+          java-version: 'openjdk8'
       - name: Build jar
         run: |
           javac -d . src/org/tls/*
