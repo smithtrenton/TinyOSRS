@@ -8,8 +8,14 @@ name: Upload Release Asset
 
 jobs:
   build:
-    name: Upload Release Asset
+    name: Create Release Assets
     runs-on: ubuntu-latest
+
+    # release for each LTS jdk
+    strategy:
+      matrix:
+        java: ['8', '11', '17']
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -18,15 +24,28 @@ jobs:
         uses: actions/setup-java@v2.3.1
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: ${{ matrix.java }}
 
       - name: Build jar
         run: |
           javac -d . src/org/tls/*
-          jar cmf src/META-INF/MANIFEST.MF TinyOSRS.jar org
-          jar tf TinyOSRS.jar
+          jar cmf src/META-INF/MANIFEST.MF TinyOSRS_${{ matrix.java }}.jar org
+          jar tf TinyOSRS_${{ matrix.java }}.jar
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: TinyOSRS_${{ matrix.java }}
+          path: TinyOSRS_${{ matrix.java }}.jar
+
+  release:
+    name: Upload Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download jars
+        uses: actions/download-artifact@v2
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          files: TinyOSRS.jar
+          files: TinyOSRS_*.jar
