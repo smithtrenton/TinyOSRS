@@ -14,7 +14,7 @@ jobs:
     # release for each LTS jdk
     strategy:
       matrix:
-        java: ['8', '11', '17']
+        java: [ '8', '11', '17' ]
 
     steps:
       - name: Checkout code

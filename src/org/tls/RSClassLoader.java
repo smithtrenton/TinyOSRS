@@ -33,8 +33,6 @@ public class RSClassLoader extends ClassLoader {
 
     @Override
     protected final synchronized Class<?> findClass(String name) throws ClassNotFoundException {
-
-
         String className = name.replace(".", "/").concat(".class");
         byte[] classBytes = jar.getFileBytes(className);
 
@@ -45,6 +43,5 @@ public class RSClassLoader extends ClassLoader {
         Class<?> clazz = defineClass(name, classBytes, 0, classBytes.length);
         loadedClasses.put(className, clazz);
         return clazz;
-
     }
 }
