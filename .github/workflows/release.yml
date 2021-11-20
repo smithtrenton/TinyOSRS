@@ -35,7 +35,7 @@ jobs:
       - name: Upload jar
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: TinyOSRS_jdk${{ matrix.java }}.jar
+          name: TinyOSRS_jdk${{ matrix.java }}
           path: TinyOSRS_jdk${{ matrix.java }}.jar
 
   release:
