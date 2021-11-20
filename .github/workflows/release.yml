@@ -49,6 +49,8 @@ jobs:
           path: /opt/artifacts
 
       - name: Release
-        uses: softprops/action-gh-release@v0.1.14
+        uses: ncipollo/release-action@v1.8.10
         with:
-          files: /opt/artifacts/*
+          artifacts: /opt/artifacts/*
+          artifactContentType: application/java-archive
+          token: ${{ secrets.GITHUB_TOKEN }}
