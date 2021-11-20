@@ -45,6 +45,11 @@ jobs:
     steps:
       - name: Download jars
         uses: actions/download-artifact@v2
+        with:
+          path: /opt/artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Release
         uses: ncipollo/release-action@v1.8.10
