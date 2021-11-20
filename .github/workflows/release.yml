@@ -29,14 +29,14 @@ jobs:
       - name: Build jar
         run: |
           javac -d . src/org/tls/*
-          jar cmf src/META-INF/MANIFEST.MF TinyOSRS_${{ matrix.java }}.jar org
-          jar tf TinyOSRS_${{ matrix.java }}.jar
+          jar cmf src/META-INF/MANIFEST.MF TinyOSRS_jdk${{ matrix.java }}.jar org
+          jar tf TinyOSRS_jdk${{ matrix.java }}.jar
 
       - name: Upload jar
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: TinyOSRS_${{ matrix.java }}.jar
-          path: TinyOSRS_${{ matrix.java }}.jar
+          name: TinyOSRS_jdk${{ matrix.java }}.jar
+          path: TinyOSRS_jdk${{ matrix.java }}.jar
 
   release:
     name: Upload Release
@@ -45,8 +45,10 @@ jobs:
     steps:
       - name: Download jars
         uses: actions/download-artifact@v2
+        with:
+          path: /opt/artifacts
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          files: TinyOSRS_*.jar
+          files: /opt/artifacts/TinyOSRS_*.jar
