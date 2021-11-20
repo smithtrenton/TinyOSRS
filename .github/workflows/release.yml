@@ -49,6 +49,6 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1.8.10
         with:
-          artifacts: /opt/artifacts/*
+          artifacts: "*.jar"
           artifactContentType: application/java-archive
           token: ${{ secrets.GITHUB_TOKEN }}
