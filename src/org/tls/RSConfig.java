@@ -1,6 +1,6 @@
 package org.tls;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

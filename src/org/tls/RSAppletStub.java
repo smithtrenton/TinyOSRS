@@ -4,7 +4,8 @@ import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
 import java.applet.AudioClip;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -114,7 +115,7 @@ public class RSAppletStub implements AppletStub, AppletContext {
     }
 
     @Override
-    public void setStream(String key, InputStream stream) throws IOException {
+    public void setStream(String key, InputStream stream) {
         throw new UnsupportedOperationException();
     }
 

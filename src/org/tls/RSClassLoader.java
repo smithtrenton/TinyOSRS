@@ -1,7 +1,6 @@
 package org.tls;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -9,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RSClassLoader extends ClassLoader {
-    private Map<String, Class<?>> loadedClasses = new HashMap<>();
-    private RSJar jar;
+    private final Map<String, Class<?>> loadedClasses = new HashMap<>();
+    private final RSJar jar;
 
     private RSClassLoader(byte[] rawJarBytes) throws IOException {
         jar = new RSJar(rawJarBytes);
@@ -33,27 +32,19 @@ public class RSClassLoader extends ClassLoader {
     }
 
     @Override
-    protected final synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        Class<?> clazz = loadedClasses.get(name);
-        if (clazz != null) {
-            return clazz;
+    protected final synchronized Class<?> findClass(String name) throws ClassNotFoundException {
+
+
+        String className = name.replace(".", "/").concat(".class");
+        byte[] classBytes = jar.getFileBytes(className);
+
+        if (classBytes == null) {
+            throw new ClassNotFoundException(name);
         }
 
-        try {
-            clazz = super.findSystemClass(name);
-            return clazz;
-        } catch (ClassNotFoundException e) {}
+        Class<?> clazz = defineClass(name, classBytes, 0, classBytes.length);
+        loadedClasses.put(className, clazz);
+        return clazz;
 
-        byte[] classBytes = jar.getFileBytes(name + ".class");
-        if (classBytes != null) {
-            clazz = defineClass(name, classBytes, 0, classBytes.length);
-            if (resolve) {
-                resolveClass(clazz);
-            }
-            loadedClasses.put(name, clazz);
-            return clazz;
-        }
-
-        throw new ClassNotFoundException();
     }
 }

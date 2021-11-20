@@ -18,7 +18,7 @@ public class RSLoader {
     }
 
     public Applet createApplet() throws Exception {
-        Applet applet = (Applet) rsClassLoader.loadClass(rsAppletStub.getInitialClass()).getDeclaredConstructor().newInstance();
+        Applet applet = (Applet) rsClassLoader.loadClass(rsAppletStub.getInitialClass()).newInstance();
         applet.setStub(rsAppletStub);
         applet.setMinimumSize(rsAppletStub.getMinSize());
         applet.setMaximumSize(rsAppletStub.getMazSize());
