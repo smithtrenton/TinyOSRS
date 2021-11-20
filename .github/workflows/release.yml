@@ -49,7 +49,7 @@ jobs:
           path: /opt/artifacts
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: ls -R /opt/artifacts
 
       - name: Release
         uses: ncipollo/release-action@v1.8.10
